@@ -3,8 +3,6 @@ from aalpy.learning_algs import run_Lstar
 from aalpy.oracles import RandomWalkEqOracle
 from aalpy.utils import visualize_automaton
 
-
-
 # SUL wrapper of the vending machine
 # individual step on the vending machine is either insertion of the coin or push of the button with a selected item
 from VendingMachinesImpl import VendingMachine, VendingMachineMutant1
@@ -35,11 +33,12 @@ def learn_vending_machine():
     # define the input alphabet
     input_alphabet = [('coin', 0.5), ('coin', 1), ('coin', 2), ('order', 'coke'), ('order', 'water'),
                       ('order', 'peanuts')]
+    # input_alphabet = [('coin', 1), ('order', 'coke')]
 
     # wrap the vending machine in SUL interface
     sul = VendingMachineSUL(vending_machine)
     # define the equivalence oracle used for conformance testing during learning
-    eq_oracle = RandomWalkEqOracle(input_alphabet, sul, num_steps=2000, reset_prob=0.1)
+    eq_oracle = RandomWalkEqOracle(input_alphabet, sul, num_steps=4000, reset_prob=0.1)
 
     # learn the mealy machine capturing the input-output behaviour of the vending machine
     learned_model = run_Lstar(input_alphabet, sul, eq_oracle, 'mealy')
@@ -104,8 +103,13 @@ def learning_based_testing(vm1, vm2):
         cex = eq_oracle_2.find_cex(learned_model)
         if cex:
             print(cex)
+            out1 = sul_base.query(cex)
+            out2 = sul_test.query(cex)
+            print(out1)
+            print(out2)
+            print('---------------------------------------------')
 
 
-learn_vending_machine()
+# learn_vending_machine()
 
 learning_based_testing(VendingMachine(), VendingMachineMutant1())

@@ -170,6 +170,6 @@ def learn_stochastic_coffee_machine(visualize=False):
     return learned_model
 
 
-learn_coffee_machine(visualize=True)
-#learn_language_of_coffee_machine_error(True)
-#learn_stochastic_coffee_machine(visualize=True)
+# learn_coffee_machine(visualize=True)
+# learn_language_of_coffee_machine_error(True)
+# learn_stochastic_coffee_machine(visualize=True)

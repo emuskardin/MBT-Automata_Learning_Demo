@@ -22,7 +22,6 @@ class RegexSUL(SUL):
         pass
 
     def post(self):
-        self.string = ""
         pass
 
     def step(self, letter):
@@ -37,13 +36,13 @@ class RegexSUL(SUL):
         return True if re.match(self.regex, self.string) else False
 
 
-regex = 'abc(a|b)+'
-input_al = [i for i in list(regex) if i not in {'(', ')', '+', '*'}]
+regex = 'edi(a|b)+'
+input_al = [i for i in list(regex) if i not in {'(', ')', '+', '*', '|'}]
 
 sul = RegexSUL(regex)
 
-eq_oracle = RandomWalkEqOracle(input_al, sul)
+eq_oracle = RandomWalkEqOracle(input_al, sul, num_steps=10000, reset_after_cex=True)
 
-model = run_Lstar(input_al, sul, eq_oracle, 'dfa')
+model = run_Lstar(input_al, sul, eq_oracle, 'dfa', print_level=3)
 
 visualize_automaton(model)
